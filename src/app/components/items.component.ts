@@ -1,10 +1,10 @@
 import {Component, OnInit} from "@angular/core";
-
-import {Item} from "./item";
-import {ItemService} from "./item.service";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import { FormControl, Validators} from "@angular/forms";
 import {first, takeUntil} from "rxjs/internal/operators";
 import {Subject} from "rxjs";
+
+import {ApiService} from "~/app/core/services";
+import {ApiResponse} from "~/app/models";
 
 @Component({
     selector: "ns-items",
@@ -16,14 +16,12 @@ export class ItemsComponent implements OnInit {
     number: string;
 
     constructor(
-        private itemService: ItemService,
-        public fb: FormBuilder,
+        private apiService: ApiService,
     ) {
     }
 
     ngOnInit(): void {
         this.unsubscribe$ = new Subject<void>();
-        console.log('ngOnInit of items component');
         this.numberControl = new FormControl('', [Validators.required]);
         this._initSubscribes();
     }
@@ -34,10 +32,21 @@ export class ItemsComponent implements OnInit {
         if (number.length !== 9) {
             return;
         }
-
-        this.itemService.getNumberInfo(number).pipe(
+        this.apiService.getNumberInfo(number).pipe(
             first()
-        ).subscribe(data => console.log(data));
+        ).subscribe((data: string) => {
+            const response: ApiResponse = JSON.parse(
+                JSON.parse(
+                    JSON.stringify(data))
+                    .replace(/\s/g, '')
+            );
+            if (response.res === 'no') {
+                console.log('number not found');
+            } else {
+                console.log(response)
+            }
+        }, error => {
+        });
     }
 
     private _initSubscribes(): void {

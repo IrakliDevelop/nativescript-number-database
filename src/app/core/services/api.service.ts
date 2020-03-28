@@ -1,12 +1,12 @@
 import { Injectable } from "@angular/core";
 
-import { Item } from "./item";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 
 @Injectable({
     providedIn: "root"
 })
-export class ItemService {
+export class ApiService {
+    private readonly ApiURL: string = 'http://simpleapi.info/apps/numbers-info/info.php';
     constructor(private http: HttpClient) {
     }
 
@@ -15,6 +15,6 @@ export class ItemService {
         formData.append('number', number);
         const headers = new HttpHeaders({ 'enctype': 'multipart/form-data' });
         console.log('getNumberInfo', number);
-        return this.http.post('http://simpleapi.info/apps/numbers-info/info.php', formData, { headers });
+        return this.http.post(this.ApiURL, formData, { headers, responseType: 'text'  });
     }
 }

@@ -10,7 +10,7 @@ So you can still use template expressions, bindings, templates as well as all th
 The ActionBar is the NativeScript common abstraction over the Android ActionBar and iOS NavigationBar.
 http://docs.nativescript.org/ui/action-bar
 -->
-<ActionBar title="My App">
+<ActionBar title="Number DB">
 </ActionBar>
 
 <!--
@@ -23,8 +23,10 @@ These components make use of the NativeScript core theme, which styles them with
 The theme also provides a set of helper class names such as p-20, h1, h2, and text-center to enhance styling.
 You can learn more about the NativeScript core theme at https://github.com/nativescript/theme
 -->
-<GridLayout style="background-color: white">
-    <TextField [formControl]="numberControl" hint="Enter a number" keyboardType="number"
-                style="background-color: white; border: 1px solid black"></TextField>
-    <Button text="Search Number" (tap)="onSubmit()"></Button>
-</GridLayout>
+<Page backgroundColor="white">
+    <GridLayout verticalAlignment="center">
+        <TextField [formControl]="numberControl" hint="Enter a number" keyboardType="number"
+                   backgroundColor="#ffffff" color="black" borderColor="black" height="40" marginBottom="100" maxlength="9"></TextField>
+        <Button width="auto" height="50" text="Search Number" (tap)="onSubmit()"></Button>
+    </GridLayout>
+</Page>

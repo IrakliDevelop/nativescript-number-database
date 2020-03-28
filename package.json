@@ -13,9 +13,14 @@
     "build": "tns build android",
     "debug": "tns debug android "
   },
+  "author": {
+    "name": "Irakli Iremashvili",
+    "email": "dev@twodio.ge",
+    "url": "https://twodio.ge"
+  },
   "description": "NativeScript Application",
   "license": "SEE LICENSE IN <your-license-filename>",
-  "repository": "<fill-your-repository-here>",
+  "repository": "https://github.com/IrakliDevelop/nativescript-number-database",
   "dependencies": {
     "@angular/animations": "~8.2.0",
     "@angular/common": "~8.2.0",

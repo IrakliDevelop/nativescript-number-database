@@ -1,10 +1,10 @@
 import {Component, OnInit} from "@angular/core";
 import { FormControl, Validators} from "@angular/forms";
-import {first, takeUntil} from "rxjs/internal/operators";
+import {finalize, first, takeUntil} from "rxjs/internal/operators";
 import {Subject} from "rxjs";
 
-import {ApiService} from "~/app/core/services";
-import {ApiResponse} from "~/app/models";
+import {ApiService, LoadingService} from "~/app/core/services";
+import {ApiResponse, NumberInfo} from "~/app/core/models";
 
 @Component({
     selector: "ns-items",
@@ -14,9 +14,13 @@ export class ItemsComponent implements OnInit {
     unsubscribe$: Subject<void>;
     numberControl: FormControl;
     number: string;
+    response: ApiResponse;
+    info: NumberInfo;
+    ownerName: string ='';
 
     constructor(
         private apiService: ApiService,
+        public loadingService: LoadingService,
     ) {
     }
 
@@ -28,22 +32,26 @@ export class ItemsComponent implements OnInit {
 
     onSubmit() {
         const number = this.number;
-        console.log(number, number.length);
         if (number.length !== 9) {
             return;
         }
+        this.loadingService.show('Searching in database');
         this.apiService.getNumberInfo(number).pipe(
-            first()
+            first(),
+            finalize(() => this.loadingService.hide())
         ).subscribe((data: string) => {
             const response: ApiResponse = JSON.parse(
                 JSON.parse(
                     JSON.stringify(data))
-                    .replace(/\s/g, '')
+                    .replace(/\s/, '')
             );
+            this.response = response;
             if (response.res === 'no') {
-                console.log('number not found');
+                this.ownerName = 'Number not found';
             } else {
-                console.log(response)
+                this.info = this.response.info;
+                this.ownerName = this.info.name;
+                console.log(this.ownerName);
             }
         }, error => {
         });
@@ -53,7 +61,6 @@ export class ItemsComponent implements OnInit {
         this.numberControl.valueChanges.pipe(
             takeUntil(this.unsubscribe$)
         ).subscribe(res => {
-            console.log(res);
             this.number = res;
         });
     }

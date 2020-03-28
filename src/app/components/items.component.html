@@ -28,5 +28,6 @@ You can learn more about the NativeScript core theme at https://github.com/nativ
         <TextField [formControl]="numberControl" hint="Enter a number" keyboardType="number"
                    backgroundColor="#ffffff" color="black" borderColor="black" height="40" marginBottom="100" maxlength="9"></TextField>
         <Button width="auto" height="50" text="Search Number" (tap)="onSubmit()"></Button>
+        <TextView height="50" marginTop="100" borderColor="black" color="black" editable="false" text="{{ownerName}}"></TextView>
     </GridLayout>
 </Page>

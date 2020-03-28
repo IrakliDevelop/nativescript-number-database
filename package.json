@@ -8,6 +8,11 @@
       "version": "6.5.0"
     }
   },
+  "scripts": {
+    "start": "tns run android --bundle",
+    "build": "tns build android",
+    "debug": "tns debug android "
+  },
   "description": "NativeScript Application",
   "license": "SEE LICENSE IN <your-license-filename>",
   "repository": "<fill-your-repository-here>",
